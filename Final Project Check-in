@@ -75,4 +75,12 @@ def play(self):
                   for another chance to find treasure!")
             
             
-            
+#Remy's Methods
+
+def outcome(Player):
+    if Player.objects.contains("Treasure"):
+        return f"We have a winner! {Player} found the treasure!"
+    elif Player.objects.contains("Bomb"):
+        return f"Oh no, {Player} found the bomb. You lose!"
+    else:
+        return None
