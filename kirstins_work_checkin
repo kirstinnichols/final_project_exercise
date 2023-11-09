@@ -1,4 +1,3 @@
-
 #Kirstin's methods
 
 
@@ -73,6 +72,3 @@ def play(self):
         else:
             print(f"The {object} was buried at {coordinates}. Play again 
                   for another chance to find treasure!")
-            
-            
-            
