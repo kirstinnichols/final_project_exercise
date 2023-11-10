@@ -78,9 +78,57 @@ def play(self):
 #Remy's Methods
 
 def outcome(Player):
+    """Determines if there is a winner or loser
+
+    Args:
+        Player (Player): A player object that will play the game
+
+    Returns:
+        str: outcome of the game (i.e. player one wins/loses or None if the 
+        the game is not over)
+    """
+    
     if Player.objects.contains("Treasure"):
-        return f"We have a winner! {Player} found the treasure!"
+        return "win"
     elif Player.objects.contains("Bomb"):
-        return f"Oh no, {Player} found the bomb. You lose!"
+        return "lose"
     else:
         return None
+    
+    
+    
+def main(HumanPlayer, GameBoard, ComputerPlayer=None):
+    print("Welcome to Treasure Hunt!")
+    name1 = input("To get started, please enter your name: ")
+    human1=HumanPlayer(name1)
+    players = input("How many players are playing today?(1 or 2) ")
+    
+    while players > 2 or players < 1:
+        players = input("Please ONLY enter 1 or 2 players: ")
+        
+    if players == 1:
+        ComputerPlayer = ComputerPlayer("Rob-ot")
+    elif players == 2:
+        name2 = input("Please enter the second player's name: ")
+        human2 = HumanPlayer(name2)
+            
+
+    difficulty = input("Would you like to play on easy or hard mode? ")
+    while not(difficulty == "easy" or difficulty == "hard"):
+        difficulty = input("Please ONLY enter 'easy' or 'hard': ")
+   
+    game=GameBoard(difficulty)
+    
+    
+    if ComputerPlayer == None:
+        human2=HumanPlayer
+        while outcome(human1) is None and outcome(human2) is None:
+            play(human1)
+            play(human2)
+            print(game)
+    elif ComputerPlayer is not None:
+        while outcome(ComputerPlayer) is None and outcome(human1) is None:
+                play(human1)
+                play(ComputerPlayer)
+                print(game)
+        
