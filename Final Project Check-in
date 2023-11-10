@@ -74,7 +74,7 @@ def play(self):
             print(f"The {object} was buried at {coordinates}. Play again 
                   for another chance to find treasure!")
             
-            
+
 #Remy's Methods
 
 def outcome(Player):
@@ -84,3 +84,33 @@ def outcome(Player):
         return f"Oh no, {Player} found the bomb. You lose!"
     else:
         return None
+    
+#Aileen's methods for set operations and comprehension **changed technique** 
+def guess(players_guess):
+    guessed_coords = set()
+    unguessed_coords = set()
+    coordinates = {"A1", "B1" "C1", "D1", "E1",
+                "A2", "B2", "C2", "D2", "E2",
+                "A3", "B3", "C3", "D3", "E3",
+                "A4", "B4", "C4", "D4", "E4",
+                "A5", "B5", "C5", "D5", "E5"}
+    guessed_coords.add(players_guess)
+    unguessed_coords = {coordinates - guessed_coords}
+    print(guessed_coords)
+    print(unguessed_coords)
+
+def wrong_guesses(guessed_coords, item_locations):
+    wrong_coords = {coord for coord in guessed_coords if coord not in 
+                        item_locations}
+    print(wrong_coords)
+
+def place_item():
+    item_location = {}
+    item_location["treasure chest"] = input('''Where do you want to place the 
+                                            treasure chest?''')
+    item_location["broken bottle"] = input('''Where do you want to place the 
+                                            broken bottle?''')
+    item_location["shovel"] = input('''Where do you want to place the shovel?''')
+    item_location["bomb"] = input('''Where do you want to place the bomb?''')
+    
+    return (item_location)
