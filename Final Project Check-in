@@ -1,3 +1,6 @@
+from argparse import ArgumentParser 
+import sys 
+import random
 
 #Kirstin's methods
 
@@ -131,4 +134,54 @@ def main(HumanPlayer, GameBoard, ComputerPlayer=None):
                 play(human1)
                 play(ComputerPlayer)
                 print(game)
+
+
+#Adom's methods
+def item_hit(self,item):
+    "You hit a shovel, you get one more turn" if item == "shovel" else "You hit\
+    hit a broken bottle, skip your turn" if item == "broken bottle" else "You\
+    hit a bomb, you lose" if item == "bomb" else "You found the chest,\
+    you win!" if item == "chest" else "You didn't find anything" 
+
+def place_item_comp(self):
+    if self.board == easy_mode:
+        #list of items to place on board
+        items = ["shovel","broken bottle", "bomb","chest"]
+        #create a list for the computer to keep track of where items are placed
+        comp_items = []
+        while items in items != len(0):
+            items.pop()
+            # make a random choice for the column
+            comp_column = random.randint(1,5)
+            #make a random choice for the row 
+            comp_row = random.randint(1,5)
+            #append the choice to the comp_items list as a tuple to keep track
+            comp_items.append(tuple(comp_column,comp_row))
+        return comp_items
+    else:
+        comp_items_hard =[]
+        while items in items != len(0): 
+            items.pop()
+            comp_column = random.choice(1,10)
+            comp_row = random.randint(1,10)
+            comp_items_hard.append(tuple(comp_column,comp_row))
+        return comp_items_hard 
+    
+def parse_args(arglist):
+    """ Parse command-line arguments
+    
+    Expect mandatory arguments:
+        - p1: name of player 1
         
+    Allow optional second player is applicable:
+        - p2, --player2: if specified, include a second player 
+    """
+    parser = ArgumentParser()
+    parser.add_argument("p1", help="name of player 1")
+    parser.add_argument("p2", "--player2", help="add a second player")
+    
+    return parser.parse_args(arglist)
+
+if __name__ == "__main__":
+    args = parse_args(sys.argv[1:])
+    main(args.p1, args.player2)
