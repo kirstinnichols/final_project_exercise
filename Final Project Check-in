@@ -10,18 +10,19 @@ class Player:
     Attributes: 
     name(str): the player's name
     """
-def __init__(self, name):
-    self.name = name
+    def __init__(self, name):
+        self.name = name
 
-def turn(self, state):
-        """Take a turn.
-        Args:
-            state(GameState): a snapshot of the current state of the game.
+    def turn(self, state):
+            """Take a turn.
+         Args:
+              state(GameState): a snapshot of the current state of the game.
             
-        Returns:
-            str: the coordinates that the player guessed
-            """
-        raise NotImplementedError("Subclasses implement the 'turn' method")
+         Returns:
+              str: the coordinates that the player guessed
+             """
+             
+            raise NotImplementedError("Subclasses implement the 'turn' method")
 
 class HumanPlayer(Player):
     """Class for human player
