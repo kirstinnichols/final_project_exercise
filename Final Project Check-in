@@ -178,21 +178,23 @@ def place_item_comp(self):
         #list of items to place on board
         items = ["shovel","broken bottle", "bomb","chest"]
         #create a list for the computer to keep track of where items are placed
+        letter_choice = 'ABCDE'
         comp_items = []
         while items in items != len(0):
             items.pop()
             # make a random choice for the column
-            comp_column = random.randint(1,5)
+            comp_column = random.choice(letter_choice)
             #make a random choice for the row 
             comp_row = random.randint(1,5)
             #append the choice to the comp_items list as a tuple to keep track
             comp_items.append(tuple(comp_column,comp_row))
         return comp_items
     else:
+        let_hard = "ABCDEFGHIJ"
         comp_items_hard =[]
         while items in items != len(0): 
             items.pop()
-            comp_column = random.choice(1,10)
+            comp_column = random.choice(let_hard)
             comp_row = random.randint(1,10)
             comp_items_hard.append(tuple(comp_column,comp_row))
         return comp_items_hard 
