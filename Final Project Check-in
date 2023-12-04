@@ -169,12 +169,12 @@ def main(HumanPlayer, GameBoard, ComputerPlayer=None):
 #Adom's methods
 def item_hit(self,item):
     "You hit a shovel, you get one more turn" if item == "shovel" else "You hit\
-    hit a broken bottle, skip your turn" if item == "broken bottle" else "You\
+    a broken bottle, skip your turn" if item == "broken bottle" else "You\
     hit a bomb, you lose" if item == "bomb" else "You found the chest,\
     you win!" if item == "chest" else "You didn't find anything" 
 
 def place_item_comp(self):
-    if self.board == easy_mode:
+    if self.difficulty == "easy":
         #list of items to place on board
         items = ["shovel","broken bottle", "bomb","chest"]
         #create a list for the computer to keep track of where items are placed
