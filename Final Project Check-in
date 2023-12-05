@@ -170,34 +170,37 @@ def main(HumanPlayer, GameBoard, ComputerPlayer=None):
 def item_hit(self,item):
     "You hit a shovel, you get one more turn" if item == "shovel" else "You hit\
     a broken bottle, skip your turn" if item == "broken bottle" else "You\
-    hit a bomb, you lose" if item == "bomb" else "You found the chest,\
-    you win!" if item == "chest" else "You didn't find anything" 
+    hit a bomb, you lose" if item == "bomb" else "You found the treasure chest,\
+    you win!" if item == "treasure chest" else "You didn't find anything"         
 
-def place_item_comp(self):
-    if self.difficulty == "easy":
-        #list of items to place on board
-        items = ["shovel","broken bottle", "bomb","chest"]
-        #create a list for the computer to keep track of where items are placed
-        letter_choice = 'ABCDE'
-        comp_items = []
-        while items in items != len(0):
-            items.pop()
-            # make a random choice for the column
-            comp_column = random.choice(letter_choice)
-            #make a random choice for the row 
-            comp_row = random.randint(1,5)
-            #append the choice to the comp_items list as a tuple to keep track
-            comp_items.append(tuple(comp_column,comp_row))
-        return comp_items
-    else:
-        let_hard = "ABCDEFGHIJ"
-        comp_items_hard =[]
-        while items in items != len(0): 
-            items.pop()
-            comp_column = random.choice(let_hard)
-            comp_row = random.randint(1,10)
-            comp_items_hard.append(tuple(comp_column,comp_row))
-        return comp_items_hard 
+
+def place_item_comp(self,difficulty):
+    assigned_coordinates = set()
+    for item in self.items.keys():
+        while True:
+            if difficulty == "easy":
+                #list of items to place on board
+                letter_choice = 'ABCDE'
+                # make a random choice for the column
+                row = random.choice(letter_choice)
+                #make a random choice for the row 
+                column = random.randint(1,5)
+            elif difficulty == "hard":
+                letter_hard = 'ABCDEFGHIJ'
+                row = random.choice(letter_hard)
+                column = random.randint(1,10)
+            else:
+                raise ValueError("Invalid difficulty. Choose 'easy' or 'hard'.")
+            
+            coordinates = (row, column)
+            
+            if coordinates not in assigned_coordinates:
+                break
+            
+        assigned_coordinates.add(coordinates)
+        self.items[item] = coordinates
+    
+    return self.items
     
 def parse_args(arglist):
     """ Parse command-line arguments
@@ -221,7 +224,7 @@ if __name__ == "__main__":
 
 
 
-Deandre's methods
+#Deandre's methods
 
 import random
 
