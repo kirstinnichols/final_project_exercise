@@ -12,6 +12,7 @@ class Player:
     """
     def __init__(self, name):
         self.name = name
+        self.items = {"treasure chest": None, "broken bottle": None, "shovel": None, "bomb": None}
 
     def turn(self, state):
             """Take a turn.
@@ -40,6 +41,36 @@ class HumanPlayer(Player):
         
         print(f"{self.name}, guess a set of coordinates of a hidden object: {state}")
         return input()
+    
+    def place_item(self, difficulty):
+        
+        assigned_coords = set()
+        for item in self.items.keys():
+            if difficulty == "easy":
+                prompt_row = "Enter a letter A-E: "
+                prompt_col = "Enter a number 1-5: "
+            elif difficulty == "hard":
+                prompt_row = "Enter a letter A-J: "
+                prompt_col = "Enter a number 1-10: "
+            else:
+                raise ValueError("Invalid difficulty. Choose 'easy' or 'hard'.")
+
+            while True:
+                row = input(f"What ROW do you want to place the {item}? {prompt_row}").upper()
+                col = input(f"What COLUMN do you want to place the {item}? {prompt_col}")
+
+                coordinates = (row, col)
+                if coordinates not in assigned_coords:
+                    assigned_coords.add(coordinates)
+                    break
+                else:
+                    print("Error: Coordinates already chosen for another item. "
+                          "Please pick a different set of coordinates.")
+
+            self.items[item] = coordinates
+
+        return self.items
+ 
 
 class ComputerPlayer(Player):
     """ Class for a computer player
@@ -117,16 +148,6 @@ def wrong_guesses(guessed_coords, item_locations):
                         item_locations}
     print(wrong_coords)
 
-def place_item():
-    item_location = {}
-    item_location["treasure chest"] = input('''Where do you want to place the 
-                                            treasure chest?''')
-    item_location["broken bottle"] = input('''Where do you want to place the 
-                                            broken bottle?''')
-    item_location["shovel"] = input('''Where do you want to place the shovel?''')
-    item_location["bomb"] = input('''Where do you want to place the bomb?''')
-    
-    return (item_location)
     
     
 def main(HumanPlayer, GameBoard, ComputerPlayer=None):
