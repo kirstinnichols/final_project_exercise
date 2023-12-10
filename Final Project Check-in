@@ -120,6 +120,8 @@ def outcome(Player):
     Returns:
         str: outcome of the game (i.e. player one wins/loses or None if the 
         the game is not over)
+        
+    Primary Author: Remington Nelson
     """
     
     if Player.objects.contains("Treasure"):
@@ -150,7 +152,16 @@ def wrong_guesses(guessed_coords, item_locations):
 
     
     
-def main(HumanPlayer, GameBoard, ComputerPlayer=None):
+def main(HumanPlayer=None, GameBoard=None, ComputerPlayer=None):
+    """Set up and play a game of Treasure Hunt
+
+    Args:
+        HumanPlayer (Player, optional): A human
+        GameBoard (GameBoard, optional): The game board
+        ComputerPlayer (Player, optional): A computer player. Defaults to None.
+        
+    Primary Author: Remington Nelson
+    """
     print("Welcome to Treasure Hunt!")
     name1 = input("To get started, please enter your name: ")
     human1=HumanPlayer(name1)
