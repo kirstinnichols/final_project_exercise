@@ -417,7 +417,8 @@ def parse_args(arglist):
     parser.add_argument("-p1", "--player1", help="name of player 1")
     parser.add_argument("-p2", "--player2", help="add a second player", default=None)
     
-    return parser.parse_args(arglist)
+    args = parser.parse_args(arglist)
+    return args.player1, args.player2
 
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
