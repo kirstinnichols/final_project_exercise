@@ -22,6 +22,9 @@ class Player:
 
         Args:
         - name (str): The name of the player.
+        
+        Side effect: 
+        - instantiates self.items, self.extra_turn, and self.skips_turn
         """
         self.name = name
         self.items = {item: None for item in ['Treasure Chest', 'Broken Glass', 'Shovel', 'Bomb']}
