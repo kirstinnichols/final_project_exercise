@@ -5,42 +5,33 @@ import random
 
 
 class Player:
-    """Creates an abstract class called Player for a player
+    """
+    Represents a player in the Treasure Hunt game.
     
     Attributes: 
-    name(str): the player's name
+    - name(str): the name of the player.
+    - item(str): the item to be placed.
+    - row(str): the row where the item is placed (letter A-Z).
+    - col(int): the column where the item is placed (1-26).
+    
     """
     def __init__(self, name):
-        self.name = name
-        self.items = {"treasure chest": None, "broken bottle": None, "shovel": None, "bomb": None}
-
-    def turn(self, state):
-            """Take a turn.
-         Args:
-              state(GameState): a snapshot of the current state of the game.
-            
-         Returns:
-              str: the coordinates that the player guessed
-             """
-             
-            raise NotImplementedError("Subclasses implement the 'turn' method")
-
-class HumanPlayer(Player):
-    """Class for human player
-    
-    Attributes:
-    name(str): the player's name"""
-    def turn(self, state):
-        """Take a turn.
-        Args:
-            state(GameState): a snapshot of the current state of the game.
-            
-        Returns:
-            str: the player's guess (a letter or a word)
-            """
+        """Initializes a new Player instance.
         
-        print(f"{self.name}, guess a set of coordinates of a hidden object: {state}")
-        return input()
+        Args:
+        - name(str): the name of the player.
+        
+        Side effects:
+        - Initializes items.
+        - Initializes extra_turn.
+        - Initializes skips_turn.
+        """
+        
+        self.name = name
+        self.items = {item: None for item in ['Treasure Chest', 'Broken Glass', 'Shovel', 'Bomb']}
+        self.extra_turn = False
+        self.skips_turn = False
+        
     
     def place_item(self, difficulty):
         
@@ -73,84 +64,142 @@ class HumanPlayer(Player):
  
 
 class ComputerPlayer(Player):
-    """ Class for a computer player
+    """
+    Represents a computer player in the Treasure Hunt game.
     
     Attributes: 
-        name(str): the player's name
-        vocab(list of strings): words that the computer can draw from when taking turns
+        - name (str): the name of the player.
+        - grid_size (int): the size of the game grid.
+        - board (Board): the game board.
         """
     def __init__(self, name, grid):
       super().__init__(name)
       self.grid = grid
-
-
-
-#play function
-def play(self):
-        """Play the game.
+      
+class Board:
+    """
+    Represents the game board in the Treasure Hunt game.
+    
+    Attributes:
+    - grid_size(int): the size of the game grid.
+    - guess (tuple): the guess in the format (row, column)."""
+    
+    def __init__(self, grid_size):
+        """
+        Initializes a new Board instance.
+        
+        Args:
+        - grid_size (int): THe size of the game grid.
         
         Side effects:
-            Writes to stdout.
-            See also turn().
+        - initializes grid_size.
+        - initializes guesses.
         """
-
-        while self.outcome() is None:
-            turn += 1
-            player = self.players[turn % len(self.players)]
-            if self.score[player.name] < self.objects:
-                continue
-            self.turn(player)
-        print(self.state().board)
-        outcome = self.outcome()
-        if outcome == "win":
-            print(f"{player.name} wins!")
-        else:
-            print(f"The {object} was buried at {coordinates}. Play again 
-                  for another chance to find treasure!")
-            
-
-#Remy's Methods
-
-def outcome(Player):
-    """Determines if there is a winner or loser
-
-    Args:
-        Player (Player): A player object that will play the game
-
-    Returns:
-        str: outcome of the game (i.e. player one wins/loses or None if the 
-        the game is not over)
+        self.grid_size = grid_size
+        self.guesses = set()
         
-    Primary Author: Remington Nelson
-    """
+class TreasureHuntGame:
+    """Allows user to play TreasureHuntGame based on their own input and either
+    the input of either a second user or the computer
     
-    if Player.objects.contains("Treasure"):
-        return "win"
-    elif Player.objects.contains("Bomb"):
-        return "lose"
-    else:
-        return None
+    Attributes:
+    - event_type(str): string representing found item
+    - player(str): string representing the player"""
     
-#Aileen's methods for set operations and comprehension **changed technique** 
-def guess(players_guess):
-    guessed_coords = set()
-    unguessed_coords = set()
-    coordinates = {"A1", "B1" "C1", "D1", "E1",
-                "A2", "B2", "C2", "D2", "E2",
-                "A3", "B3", "C3", "D3", "E3",
-                "A4", "B4", "C4", "D4", "E4",
-                "A5", "B5", "C5", "D5", "E5"}
-    guessed_coords.add(players_guess)
-    unguessed_coords = {coordinates - guessed_coords}
-    print(guessed_coords)
-    print(unguessed_coords)
 
-def wrong_guesses(guessed_coords, item_locations):
-    wrong_coords = {coord for coord in guessed_coords if coord not in 
-                        item_locations}
-    print(wrong_coords)
 
-    
+    #play function
+    def play(self):
+            """Play the game.
+            
+            Side effects:
+                Writes to stdout.
+                See also turn().
+            """
+
+            while self.outcome() is None:
+                turn += 1
+                player = self.players[turn % len(self.players)]
+                if self.score[player.name] < self.objects:
+                    continue
+                self.turn(player)
+            print(self.state().board)
+            outcome = self.outcome()
+            if outcome == "win":
+                print(f"{player.name} wins!")
+            else:
+                print(f"The {object} was buried at {coordinates}. Play again 
+                    for another chance to find treasure!")
+                
+
+    #Remy's Methods
+
+    def outcome(Player):
+        """Determines if there is a winner or loser
+
+        Args:
+            Player (Player): A player object that will play the game
+
+        Returns:
+            str: outcome of the game (i.e. player one wins/loses or None if the 
+            the game is not over)
+            
+        Primary Author: Remington Nelson
+        """
+        
+        if Player.objects.contains("Treasure"):
+            return "win"
+        elif Player.objects.contains("Bomb"):
+            return "lose"
+        else:
+            return None
+        
+    #Aileen's methods for set operations and comprehension **changed technique** 
+    def guess(players_guess):
+        guessed_coords = set()
+        unguessed_coords = set()
+        coordinates = {"A1", "B1" "C1", "D1", "E1",
+                    "A2", "B2", "C2", "D2", "E2",
+                    "A3", "B3", "C3", "D3", "E3",
+                    "A4", "B4", "C4", "D4", "E4",
+                    "A5", "B5", "C5", "D5", "E5"}
+        guessed_coords.add(players_guess)
+        unguessed_coords = {coordinates - guessed_coords}
+        print(guessed_coords)
+        print(unguessed_coords)
+
+    def wrong_guesses(guessed_coords, item_locations):
+        wrong_coords = {coord for coord in guessed_coords if coord not in 
+                            item_locations}
+        print(wrong_coords)
+
+    def __str__(self, player_index):
+        """Prints display board as formal string representation, determining how 
+        to represent glass '[G]' and user choices '[X]'
+        
+        Args: player_index(str): index of the current player in the list of players
+        """
+        result = ""
+        result += "    " + "   ".join(str(i) for i in range(1, self.grid_size + 1)) + "\n"
+        for row in range(ord('A'), ord('A') + self.grid_size):
+            result += chr(row) + "  "
+            for col in range(1, self.grid_size + 1):
+                current_position = (chr(row), col)
+
+                if current_position in self.boards[player_index].guesses:
+                    for item, coords in self.players[1 - player_index].items.items():
+                        if current_position == coords:
+                            if "glass" in item.lower():
+                                result += "[G] "
+                            else:
+                                result += f"[{item[0]}] "
+                            break
+                    else:
+                        result += "[X] "
+                else:
+                    result += "[ ] "
+            result += "\n"
+        return result
     
 def main(HumanPlayer=None, GameBoard=None, ComputerPlayer=None):
     """Set up and play a game of Treasure Hunt
@@ -198,41 +247,41 @@ def main(HumanPlayer=None, GameBoard=None, ComputerPlayer=None):
 
 
 
-#Adom's methods
-def item_hit(self,item):
-    "You hit a shovel, you get one more turn" if item == "shovel" else "You hit\
-    a broken bottle, skip your turn" if item == "broken bottle" else "You\
-    hit a bomb, you lose" if item == "bomb" else "You found the treasure chest,\
-    you win!" if item == "treasure chest" else "You didn't find anything"         
+    #Adom's methods
+    def item_hit(self,item):
+        "You hit a shovel, you get one more turn" if item == "shovel" else "You hit\
+        a broken bottle, skip your turn" if item == "broken bottle" else "You\
+        hit a bomb, you lose" if item == "bomb" else "You found the treasure chest,\
+        you win!" if item == "treasure chest" else "You didn't find anything"         
 
 
-def place_item_comp(self,difficulty):
-    assigned_coordinates = set()
-    for item in self.items.keys():
-        while True:
-            if difficulty == "easy":
-                #list of items to place on board
-                letter_choice = 'ABCDE'
-                # make a random choice for the column
-                row = random.choice(letter_choice)
-                #make a random choice for the row 
-                column = random.randint(1,5)
-            elif difficulty == "hard":
-                letter_hard = 'ABCDEFGHIJ'
-                row = random.choice(letter_hard)
-                column = random.randint(1,10)
-            else:
-                raise ValueError("Invalid difficulty. Choose 'easy' or 'hard'.")
-            
-            coordinates = (row, column)
-            
-            if coordinates not in assigned_coordinates:
-                break
-            
-        assigned_coordinates.add(coordinates)
-        self.items[item] = coordinates
-    
-    return self.items
+    def place_item_comp(self,difficulty):
+        assigned_coordinates = set()
+        for item in self.items.keys():
+            while True:
+                if difficulty == "easy":
+                    #list of items to place on board
+                    letter_choice = 'ABCDE'
+                    # make a random choice for the column
+                    row = random.choice(letter_choice)
+                    #make a random choice for the row 
+                    column = random.randint(1,5)
+                elif difficulty == "hard":
+                    letter_hard = 'ABCDEFGHIJ'
+                    row = random.choice(letter_hard)
+                    column = random.randint(1,10)
+                else:
+                    raise ValueError("Invalid difficulty. Choose 'easy' or 'hard'.")
+                
+                coordinates = (row, column)
+                
+                if coordinates not in assigned_coordinates:
+                    break
+                
+            assigned_coordinates.add(coordinates)
+            self.items[item] = coordinates
+        
+        return self.items
     
 def parse_args(arglist):
     """ Parse command-line arguments
