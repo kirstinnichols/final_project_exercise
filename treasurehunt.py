@@ -133,7 +133,14 @@ class Computer(Player):
         
 class Game:
     """Allows user to play Game based on their own input and either the input of 
-    either a second user or the computer"""
+    either a second user or the computer. 
+    
+    Attributes:
+        players(list): list of players 
+        grid_size(int): the size of the game grid. 5 or 10.
+        boards(list): list of Board objects.
+        
+    """
     
     def __init__(self, players):
         self.players = players
