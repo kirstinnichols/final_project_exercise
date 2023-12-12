@@ -31,34 +31,22 @@ class Player:
         self.extra_turn = False
         self.skips_turn = False
     
-    def place_item(self, difficulty):
+    def place_item(self, item, new_coords):
+        """ Places an item in the player's grid
         
-        assigned_coords = set()
-        for item in self.items.keys():
-            if difficulty == "easy":
-                prompt_row = "Enter a letter A-E: "
-                prompt_col = "Enter a number 1-5: "
-            elif difficulty == "hard":
-                prompt_row = "Enter a letter A-J: "
-                prompt_col = "Enter a number 1-10: "
-            else:
-                raise ValueError("Invalid difficulty. Choose 'easy' or 'hard'.")
+        Args: 
+            item (str): The item to be placed 
+            row (str): The row where the item is placed (letter A-Z).
+            col (int): The column where the item is placed (1-26).
+        """
+        row, col = new_coords
 
-            while True:
-                row = input(f"What ROW do you want to place the {item}? {prompt_row}").upper()
-                col = input(f"What COLUMN do you want to place the {item}? {prompt_col}")
-
-                coordinates = (row, col)
-                if coordinates not in assigned_coords:
-                    assigned_coords.add(coordinates)
-                    break
-                else:
-                    print("Error: Coordinates already chosen for another item. "
-                          "Please pick a different set of coordinates.")
-
-            self.items[item] = coordinates
-
-        return self.items
+        if any(coords == new_coords for coords in self.items.values() if coords is not None):
+            return ValueError
+        
+        else:
+            self.items[item] = new_coords
+       
     
     def guess_location(self, grid_size, board):
         """
@@ -142,7 +130,7 @@ class Board:
         
 class TreasureHuntGame:
     """Allows user to play TreasureHuntGame based on their own input and either
-    the input of either a second user or the computer
+    the input of either a second user or the computer"""
 
 def set_up_game(self):
     """
@@ -301,31 +289,7 @@ def set_up_game(self):
         
         return self.items
     
-def parse_args(arglist):
-    """ Parse command-line arguments
-    
-    Expect mandatory arguments:
-        - p1: name of player 1
-        
-    Allow optional second player is applicable:
-        - p2, --player2: if specified, include a second player 
-    """
-    parser = ArgumentParser()
-    parser.add_argument("p1", help="name of player 1")
-    parser.add_argument("p2", "--player2", help="add a second player")
-    
-    return parser.parse_args(arglist)
 
-if __name__ == "__main__":
-    args = parse_args(sys.argv[1:])
-    main(args.p1, args.player2)
-
-
-
-
-#Deandre's methods
-
-import random
 
 class Board:
     def __init__(self, difficulty="easy"):
@@ -462,3 +426,20 @@ def main(player1, player2=None):
     game = Game(players)
     game.set_up_game()
     game.play_game()
+
+def parse_args(arglist): 
+    """ Parse command-line arguments
+    
+    Allow optional second player if applicable 
+        - p1, --player1: name of the player
+        - p2, --player2: name of the second player, if specified
+    """
+    parser = ArgumentParser()
+    parser.add_argument("-p1", "--player1", help="name of player 1")
+    parser.add_argument("-p2", "--player2", help="add a second player")
+    
+    return parser.parse_args(arglist)
+
+if __name__ == "__main__":
+    args = parse_args(sys.argv[1:])
+    main(args.player1, args.player2)
