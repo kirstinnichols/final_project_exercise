@@ -17,7 +17,7 @@ Our program does not require other files so this is the only other file
 | Method/Function | Primary Author | Technique Demonstrated |
 | --- | --- | --- |
 | BLANK | Adom-Ahima Amissah | BLANK |
-| BLANK | Aileen Ham | BLANK |
+| BLANK | Aileen Ham | Set Operations & List Comprehension |
 | BLANK | Deandre Germany | BLANK |
 | BLANK | Kirstin Nichols | BLANK |
 | BLANK | Remington Nelson | BLANK |
