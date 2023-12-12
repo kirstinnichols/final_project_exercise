@@ -324,6 +324,31 @@ class GameBoard:
             self.grid[row][col] = 'X'  # Mark the item as found
         else:
             self.grid[row][col] = 'O'  # Mark the guess as a miss
+            
+    def handle_event_type(self, event_type, player):
+        """
+        Handles the case where a bomb, shovel, or broken glass is found by the player, 
+        resulting in the player losing the game (bomb), getting an extra turn (shovel),
+        or losing a turn (broken glass).
+        
+        Args: 
+        - event_type(str): string representing found item
+        - player(str): string representing the player
+        
+        Side effects: changes value of player.extra_turn and player.skips_turn 
+        based on event type
+        """
+        if event_type == 'bomb_found':
+            print(f"Sorry {player.name}, you found the bomb placed your opponent. You lose!") 
+        
+        elif event_type == 'shovel_found':
+            print(f"{player.name}, you found a shovel! You get an extra turn to dig again!")
+            player.extra_turn = True
+            
+        elif event_type == 'broken glass_found':
+            print(f'''Ouch! {player.name}, you found broken glass and injured yourself.
+            Skip a turn while you bandage yourself up!''')
+            player.skips_turn = True 
 
     def __str__(self):
         """
