@@ -36,8 +36,7 @@ class Player:
         
         Args: 
             item (str): The item to be placed 
-            row (str): The row where the item is placed (letter A-Z).
-            col (int): The column where the item is placed (1-26).
+            new_coords (tuple): the row and the column placed
         """
         row, col = new_coords
 
@@ -132,53 +131,53 @@ class TreasureHuntGame:
     """Allows user to play TreasureHuntGame based on their own input and either
     the input of either a second user or the computer"""
 
-def set_up_game(self):
-    """
-    Sets up the initial difficulty level and item placement of the Treasure Hunt game.
+    def set_up_game(self):
+        """
+        Sets up the initial difficulty level and item placement of the Treasure Hunt game.
 
-    Side effects: defines row, col, and self.grid_size depending on user input
-    """
-    difficulty = input('''Would you like to play on easy (5x5 grid) or hard mode (10x10 grid)? 
-    Enter 'easy' or 'hard: ''')
-    
-    while not (difficulty == "easy" or difficulty == "hard"):
-        difficulty = input("Please ONLY enter 'easy' or 'hard': ")
-    
-    self.grid_size = 5 if difficulty == "easy" else 10
+        Side effects: defines row, col, and self.grid_size depending on user input
+        """
+        difficulty = input('''Would you like to play on easy (5x5 grid) or hard mode (10x10 grid)? 
+        Enter 'easy' or 'hard: ''')
+        
+        while not (difficulty == "easy" or difficulty == "hard"):
+            difficulty = input("Please ONLY enter 'easy' or 'hard': ")
+        
+        self.grid_size = 5 if difficulty == "easy" else 10
 
-    print("\nLet's begin by hiding our items on the island:")
-    
-    for player in self.players:
-        if isinstance(player, Computer):
-            player.place_items_randomly(self.grid_size)
-        else:
-            print(f"{player.name}, please enter the coordinates for each item in the following format 'A1'.\n")
-            
-            for item in player.items:
-                while True:
-                    coords = input(f"{item}: ").strip().upper()
-                    
-                    if len(coords) < 2 or not coords[0].isalpha() or not coords[1:].isdigit():
-                        print("Invalid format. Please enter coordinates in this format 'A1'.")
-                        continue
-                    
-                    row = coords[0]
-                    col = int(coords[1:])
-
-                    if difficulty == "easy":
-                        if row not in "ABCDE" or col not in range(1, 6):
-                            print("Invalid coordinates. Please enter coordinates within A1-E5 range")
+        print("\nLet's begin by hiding our items on the island:")
+        
+        for player in self.players:
+            if isinstance(player, Computer):
+                player.place_items_randomly(self.grid_size)
+            else:
+                print(f"{player.name}, please enter the coordinates for each item in the following format 'A1'.\n")
+                
+                for item in player.items:
+                    while True:
+                        coords = input(f"{item}: ").strip().upper()
+                        
+                        if len(coords) < 2 or not coords[0].isalpha() or not coords[1:].isdigit():
+                            print("Invalid format. Please enter coordinates in this format 'A1'.")
                             continue
-                    elif difficulty == "hard":
-                        if row not in "ABCDEFGHIJ" or col not in range(1, 11):
-                            print("Invalid coordinates. Please enter coordinates within A1-J10 range")
-                            continue
+                        
+                        row = coords[0]
+                        col = int(coords[1:])
 
-                    if player.place_item(item, (row, col)) == ValueError:
-                        print("This coordinate is already assigned to another item. Please choose a different set of coordinates")
-                        continue
-                    else:
-                        break
+                        if difficulty == "easy":
+                            if row not in "ABCDE" or col not in range(1, 6):
+                                print("Invalid coordinates. Please enter coordinates within A1-E5 range")
+                                continue
+                        elif difficulty == "hard":
+                            if row not in "ABCDEFGHIJ" or col not in range(1, 11):
+                                print("Invalid coordinates. Please enter coordinates within A1-J10 range")
+                                continue
+
+                        if player.place_item(item, (row, col)) == ValueError:
+                            print("This coordinate is already assigned to another item. Please choose a different set of coordinates")
+                            continue
+                        else:
+                            break
 
     
 
