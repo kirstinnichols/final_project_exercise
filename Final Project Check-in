@@ -186,7 +186,6 @@ def main(HumanPlayer, GameBoard, ComputerPlayer=None):
                 print(game)
 
 
-
 #Adom's methods
 def item_hit(self,item):
     "You hit a shovel, you get one more turn" if item == "shovel" else "You hit\
