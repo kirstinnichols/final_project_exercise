@@ -2,8 +2,8 @@
 
 ## Instructions to run the program:
 
-With the command line open, type "python \'Final Project Check-in.py\ -p1 name -p2 name'"
-(or on mac type "python3 \'Final Project Check-in.py\ -p1 name -p2 name'") with -p2 being optional and the game should begin!
+With the command line open, type "python \'treasurehunt.py\ -p1 name -p2 name'"
+(or on mac type "python3 \'treasurehunt.py\ -p1 name -p2 name'") with -p2 being optional and the game should begin!
 
 ## Instructions on how to use the program:
 
