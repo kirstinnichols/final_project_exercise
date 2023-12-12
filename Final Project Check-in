@@ -139,24 +139,6 @@ class TreasureHuntGame:
         else:
             return None
         
-    #Aileen's methods for set operations and comprehension **changed technique** 
-    def guess(players_guess):
-        guessed_coords = set()
-        unguessed_coords = set()
-        coordinates = {"A1", "B1" "C1", "D1", "E1",
-                    "A2", "B2", "C2", "D2", "E2",
-                    "A3", "B3", "C3", "D3", "E3",
-                    "A4", "B4", "C4", "D4", "E4",
-                    "A5", "B5", "C5", "D5", "E5"}
-        guessed_coords.add(players_guess)
-        unguessed_coords = {coordinates - guessed_coords}
-        print(guessed_coords)
-        print(unguessed_coords)
-
-    def wrong_guesses(guessed_coords, item_locations):
-        wrong_coords = {coord for coord in guessed_coords if coord not in 
-                            item_locations}
-        print(wrong_coords)
 
     def __str__(self, player_index):
         """Prints display board as formal string representation, determining how 
@@ -186,57 +168,6 @@ class TreasureHuntGame:
             result += "\n"
         return result
     
-def main(HumanPlayer=None, GameBoard=None, ComputerPlayer=None):
-    """Set up and play a game of Treasure Hunt
-
-    Args:
-        HumanPlayer (Player, optional): A human
-        GameBoard (GameBoard, optional): The game board
-        ComputerPlayer (Player, optional): A computer player. Defaults to None.
-        
-    Primary Author: Remington Nelson
-    """
-    print("Welcome to Treasure Hunt!")
-    name1 = input("To get started, please enter your name: ")
-    human1=HumanPlayer(name1)
-    players = input("How many players are playing today?(1 or 2) ")
-    
-    while players > 2 or players < 1:
-        players = input("Please ONLY enter 1 or 2 players: ")
-        
-    if players == 1:
-        ComputerPlayer = ComputerPlayer("Rob-ot")
-    elif players == 2:
-        name2 = input("Please enter the second player's name: ")
-        human2 = HumanPlayer(name2)
-            
-
-    difficulty = input("Would you like to play on easy or hard mode? ")
-    while not(difficulty == "easy" or difficulty == "hard"):
-        difficulty = input("Please ONLY enter 'easy' or 'hard': ")
-   
-    game=GameBoard(difficulty)
-    
-    
-    if ComputerPlayer == None:
-        human2=HumanPlayer
-        while outcome(human1) is None and outcome(human2) is None:
-            play(human1)
-            play(human2)
-            print(game)
-    elif ComputerPlayer is not None:
-        while outcome(ComputerPlayer) is None and outcome(human1) is None:
-                play(human1)
-                play(ComputerPlayer)
-                print(game)
-
-
-    #Adom's methods
-    def item_hit(self,item):
-        "You hit a shovel, you get one more turn" if item == "shovel" else "You hit\
-        a broken bottle, skip your turn" if item == "broken bottle" else "You\
-        hit a bomb, you lose" if item == "bomb" else "You found the treasure chest,\
-        you win!" if item == "treasure chest" else "You didn't find anything"         
 
 
     def place_item_comp(self,difficulty):
@@ -293,7 +224,7 @@ if __name__ == "__main__":
 
 import random
 
-class GameBoard:
+class Board:
     def __init__(self, difficulty="easy"):
         """
         Initialize the game board with the specified difficulty.
@@ -306,6 +237,27 @@ class GameBoard:
         self.grid = [[' ' for _ in range(self.grid_size)] for _ in range(self.grid_size)]
         self.items = [(random.randint(0, self.grid_size-1), random.randint(0, self.grid_size-1)) for _ in range(self.grid_size)]
 
+    
+    def item_reveal(self, player, other, otherPlayerBoard):
+        """ Reveals location of remaining items 
+        
+        Args:
+            player(Player): name of player that won/lost
+            other(Player): name of other player
+            otherPlayerBoard(Board): other player's board guesses
+        
+        Side effects:
+            prints the location of the items for each player's board
+        """
+            
+        player_missed_items = set(other.items.values()) - self.guesses
+
+        other_missed_items = set(player.items.values()) - otherPlayerBoard.guesses
+
+        print(f'''Here are the locations of the items {player.name} has missed on {other.name}'s board: {player_missed_items}''')
+        print(f'''and locations of items {other.name} has missed on {player.name}'s board: {other_missed_items}''')
+    
+    
     def grid_state(self, guess):
         """
         Update the game board based on the player's guess.
@@ -369,10 +321,41 @@ class GameBoard:
         return game_state
 
 
-difficulty = "hard"  
-game = GameBoard(difficulty)
+def main(player1, player2=None):
+    """Creating instances of players to classes and set up and play game
+    
+    Args: 
+        player1(str): name of player 1
+        player2(str): name of player 2, default to None
+    
+    Side effects: 
+        Prints intro to Treasure Hunt Island
+        Changes player1 and player2 value based on user input
+    
+    """
+    
+    print('''\n
+    Welcome to Treasure Hunt Island! \n
+    The objective of this game is to outwit your opponent and find their hidden treasure chest. \n
+    But be cautious! The island is full of surprises ... \n
+        * Shovel --- Dig it up for an extra turn. \n
+        * Broken Glass --- Beware, it skips your next turn. \n
+        * Bomb --- Uncover this and BOOM, it's game over. \n
+    Find the treasure chest before your opponent does to win the game! Good luck!\n''')
 
-print(game)  
-game.grid_state((1, 2))  
-print(game)  
+    if player2 == None:
+        print(f"Hello {player1}! You will be playing against our computer player, Hunter.")
+        player1 = Player(player1)
+        player2 = Computer("Hunter")
 
+    else:
+        print(f"Hello {player1} and {player2}! ")
+        player1 = Player(player1)
+        player2 = Player(player2)
+        
+    players = [player1, player2]
+
+
+    game = Game(players)
+    game.set_up_game()
+    game.play_game()
