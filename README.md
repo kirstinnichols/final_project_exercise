@@ -1,13 +1,14 @@
-# Treasure Hunt!
+# Treasure Hunt Island!
 
 ## Instructions to run the program:
 
-With the command line open, type "python \'Final Project Check-in.py\'"
-(or on mac type "python3 \'Final Project Check-in.py\'") and the game should begin!
+With the command line open, type "python \'Final Project Check-in.py\ -p1 name -p2 name'"
+(or on mac type "python3 \'Final Project Check-in.py\ -p1 name -p2 name'") with -p2 being optional and the game should begin!
 
 ## Instructions on how to use the program:
 
-The game will start by welcoming the user and asking them to enter their name as the first player. Then, the user will be asked how many players are playing. If only one player is playing then the second player will be the computer, while having two players will prompt the second user to enter their name. Next, the players will be asked if they want ‘easy’ mode or ‘hard’ mode. Then, the first player will be prompted to enter the coordinate of each item that they need to place. For example, if the player wants to place their first item at A4, they would enter 'a4' or 'A4'. If there is only one player then the computer will randomly place the items, if there are two players then the second player will be asked to place their items. 
+Once command line is entered, the gmae will start with an introduction to the game such as the goal and description of each item's consequnecs. Given that player2 is an optional parameter of the main function, player2 should default to Hunter, our computer player. In that case, the player will be let known that they are playing against Hunter. However, if two players were written in the command line, then the program will be greet the two players. The game will start by welcoming the user and asking them to enter their name as the first player. As set_up_game method gets called, the user must type 'easy' or 'hard' when prompted what difficulty they want. If the second player is computer player, it will place its coordinates randomly. All human players must manually type in the coordinate for each item when prompted. For example, if the player wants to place their first item at A4, they would type 'a4' or 'A4'. If coordinates are invalid for the difficulty type, then an error will be raised in which the players would need to re-enter the coordinates.
+
 
 ## Now, the game begins! 
 
