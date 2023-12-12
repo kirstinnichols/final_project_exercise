@@ -1,6 +1,0 @@
-print("This is our new exercise file!")
-print("Deandre wrote this message")
-print("Aileen wrote this message")
-print("Remy wrote this message")
-print("Adom wrote this message")
-print("Kirstin wrote this message")
