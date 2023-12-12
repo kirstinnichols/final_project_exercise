@@ -209,7 +209,7 @@ class Game:
                 print(f"\n{player.name}'s turn!\n")
                 
                 if not isinstance(player, Computer):
-                    self.__str__(i)
+                    print(self.__str__(i))
 
                 player_guess = player.guess_location(self.grid_size, self.boards[i])
                 self.boards[i].add_guess(player_guess)
