@@ -61,12 +61,12 @@ class Player:
 
         
         while True:
-            row = input(f"{self.name}, what ROW do you think the treasure chest 
-                is at? Enter a letter A-{chr(65 + grid_size - 1)}: ").upper()
+            row = input(f'''{self.name}, what ROW do you think the treasure chest is at?
+            Enter a letter A-{chr(65 + grid_size - 1)}: ''').upper()
 
             if 'A' <= row <= chr(65 + grid_size - 1) and len(row) == 1:
-                col = input(f"What COLUMN do you think the treasure chest is at?
-                            Enter a number 1-{grid_size}: ")
+                col = input(f'''What COLUMN do you think the treasure chest is at?
+                Enter a number 1-{grid_size}: ''')
 
                 if col.isdigit() and 1 <= int(col) <= grid_size:
                     col = int(col)
@@ -76,11 +76,9 @@ class Player:
                     else:
                         print("You already guessed this location. Try again.")
                 else:
-                    print(f"Invalid input. Please enter a valid integer for the 
-                          column (1-{grid_size}).")
+                    print(f"Invalid input. Please enter a valid integer for the column (1-{grid_size}).")
             else:
-                print(f"Invalid input. Please enter a valid row 
-                      (A-{chr(65 + grid_size - 1)}).")
+                print(f"Invalid input. Please enter a valid row (A-{chr(65 + grid_size - 1)}).")
 
  
 
@@ -97,7 +95,7 @@ class Computer(Player):
         """
         Places items randomly on the computer player's grid.
 
-        P:
+        Args:
         - grid_size (int): The size of the game grid.
         """
         self.place_item('Treasure Chest', (chr(random.randint(65, 65 + grid_size - 1)), random.randint(1, grid_size)))
@@ -126,22 +124,24 @@ class Computer(Player):
                 return guess
       
         
-class TreasureHuntGame:
-    """Allows user to play TreasureHuntGame based on their own input and either
-    the input of either a second user or the computer"""
+class Game:
+    """Allows user to play Game based on their own input and either the input of 
+    either a second user or the computer"""
     
-    def __init__(self, player1, player2=None):
-        self.players = [player1, player2] if player2 else [player1]
+    def __init__(self, players):
+        self.players = players
         self.grid_size = 0
-        self.current_player = None
         self.boards = [Board(0), Board(0)]
 
     def set_up_game(self):
         """
         Sets up the initial difficulty level and item placement of the Treasure Hunt game.
 
-        Side effects: defines row, col, and self.grid_size depending on user input
+        Side effects: 
+            defines row, col, and self.grid_size depending on user input
+            prints invalid coordinates statement if contains Value error
         """
+        
         difficulty = input('''Would you like to play on easy (5x5 grid) or hard mode (10x10 grid)? 
         Enter 'easy' or 'hard: ''')
         
@@ -183,7 +183,99 @@ class TreasureHuntGame:
                             continue
                         else:
                             break
+    def play_game(self):
+        """Determines result of player action
+        
+        Side effects: determines value of player.skips_turn based on player action
+                      adds guess to self.boards
+                      changes value of item_at_guess depending on user choice
+                      changes value of item_at_new_guess depending on user choice
+                      prints statement if player won or loses
+        
+        Returns:
+            Nothing, quits the game
+                      
+                      
+        """
+        print("\nNow that we have buried our items, time to start digging and find each other's treasure chest!")
+        
+        while True:
+            for i, player in enumerate(self.players):
+                
+                if player.skips_turn:
+                    print(f"{player.name} skips a turn from digging up the broken glass.")
+                    player.skips_turn = False
+                    continue
+                print(f"\n{player.name}'s turn!\n")
+                
+                if not isinstance(player, Computer):
+                    self.__str__(i)
 
+                player_guess = player.guess_location(self.grid_size, self.boards[i])
+                self.boards[i].add_guess(player_guess)
+                
+
+                if player_guess == self.players[1 - i].items['Treasure Chest'] and player_guess != player.items['Treasure Chest']:
+                    print(f"Congratulations {player.name}! You found the treasure chest and won the game!")
+                    return
+                else:
+                    item_at_guess = None
+                    for item, coords in self.players[1 - i].items.items():
+                        if player_guess == coords:
+                            item_at_guess = item
+                            break
+
+                    if item_at_guess is not None:
+                        self.handle_event_type(item_at_guess.lower() + '_found', player)
+                        if player.extra_turn:
+                            player.extra_turn = False
+                            new_guess = player.guess_location(self.grid_size, self.boards[i])
+                            self.boards[i].add_guess(new_guess)
+                            
+                            if new_guess == self.players[1 - i].items['Treasure Chest'] and new_guess != player.items['Treasure Chest']:
+                                print(f"Congratulations {player.name}! You found the treasure chest and won the game!")
+                                return
+                            else:
+                                item_at_new_guess = None
+                                for item, coords in self.players[1 - i].items.items():
+                                    if new_guess == coords:
+                                        item_at_new_guess = item
+                                        break
+
+                                if item_at_new_guess is not None:
+                                    self.handle_event_type(item_at_new_guess.lower() + '_found', player)
+                                else:
+                                    print(f"Sorry {player.name}, that's not where the treasure chest is. Good luck on your next try!\n")
+                                    
+
+                    else:
+                        print(f"Sorry {player.name}, that's not where the treasure chest is. Good luck on your next try!\n")
+                        
+                        
+    def handle_event_type(self, event_type, player):
+        """
+        Handles the case where a bomb, shovel, or broken glass is found by the player, 
+        resulting in the player losing the game (bomb), getting an extra turn (shovel),
+        or losing a turn (broken glass).
+        
+        Args: 
+        - event_type(str): string representing found item
+        - player(str): string representing the player
+        
+        Side effects: changes value of player.extra_turn and player.skips_turn 
+        based on event type
+        """
+        if event_type == 'bomb_found':
+            print(f"Sorry {player.name}, you found the bomb placed your opponent. You lose!") 
+        
+        elif event_type == 'shovel_found':
+            print(f"{player.name}, you found a shovel! You get an extra turn to dig again!")
+            player.extra_turn = True
+            
+        elif event_type == 'broken glass_found':
+            print(f'''Ouch! {player.name}, you found broken glass and injured yourself.
+            Skip a turn while you bandage yourself up!''')
+            player.skips_turn = True 
     
 
 
@@ -259,67 +351,18 @@ class Board:
         print(f'''and locations of items {other.name} has missed on {player.name}'s board: {other_missed_items}''')
     
     
-    def grid_state(self, guess):
+    def add_guess(self, guess):
+         
         """
-        Update the game board based on the player's guess.
+        Adds a guess to the set of previous guesses on the board.
 
-        Args:
-        guess (tuple): A tuple containing the player's guess as (row, column).
-
-        Returns:
-        str: A string representing the game board's current state.
+        Parameters:
+        - guess (tuple): The guess to be added in the format (row, column).
         """
-        row, col = guess
-
-        if guess in self.items:
-            self.items.remove(guess)
-            self.grid[row][col] = 'X'  # Mark the item as found
-        else:
-            self.grid[row][col] = 'O'  # Mark the guess as a miss
+        unguessed_coords = self.all_coords - self.guesses
+        if guess not in unguessed_coords:
+            self.guesses.add(guess)
             
-    def handle_event_type(self, event_type, player):
-        """
-        Handles the case where a bomb, shovel, or broken glass is found by the player, 
-        resulting in the player losing the game (bomb), getting an extra turn (shovel),
-        or losing a turn (broken glass).
-        
-        Args: 
-        - event_type(str): string representing found item
-        - player(str): string representing the player
-        
-        Side effects: changes value of player.extra_turn and player.skips_turn 
-        based on event type
-        """
-        if event_type == 'bomb_found':
-            print(f"Sorry {player.name}, you found the bomb placed your opponent. You lose!") 
-        
-        elif event_type == 'shovel_found':
-            print(f"{player.name}, you found a shovel! You get an extra turn to dig again!")
-            player.extra_turn = True
-            
-        elif event_type == 'broken glass_found':
-            print(f'''Ouch! {player.name}, you found broken glass and injured yourself.
-            Skip a turn while you bandage yourself up!''')
-            player.skips_turn = True 
-
-    def __str__(self):
-        """
-        Provide a string representation of the game board's current state.
-
-        Returns:
-        str: A string representing the game board.
-        """
-        game_state = ""
-        for i in range(self.grid_size):
-            for j in range(self.grid_size):
-                if (i, j) in self.items:
-                    game_state += ' '
-                else:
-                    game_state += self.grid[i][j]
-                game_state += ' '
-            game_state += '\n'
-
-        return game_state
 
 
 def main(player1, player2=None):
