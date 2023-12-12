@@ -415,10 +415,10 @@ def parse_args(arglist):
     """
     parser = ArgumentParser()
     parser.add_argument("-p1", "--player1", help="name of player 1")
-    parser.add_argument("-p2", "--player2", help="add a second player")
+    parser.add_argument("-p2", "--player2", help="add a second player", default=None)
     
     return parser.parse_args(arglist)
 
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
-    main(args.player1, args.player2)
+    main(*args)
