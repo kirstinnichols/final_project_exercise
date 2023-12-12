@@ -25,6 +25,9 @@ class Player:
         
         Side effect: 
         - instantiates self.items, self.extra_turn, and self.skips_turn
+
+        Primary Author: Remington Nelson
+        Technique: List Comprehension
         """
         self.name = name
         self.items = {item: None for item in ['Treasure Chest', 'Broken Glass', 'Shovel', 'Bomb']}
@@ -57,6 +60,9 @@ class Player:
 
         Returns:
         tuple: The player's guess in the format (row, column).
+
+        Primary Author: Remington Nelson
+        Technique: F-Strings
         """
 
         
