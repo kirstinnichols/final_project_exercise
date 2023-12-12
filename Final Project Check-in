@@ -224,17 +224,17 @@ class Board:
     Represents the game board in the Treasure Hunt game.
     """
     
-   def __init__(self, grid_size):
-        """
-        Initializes a new Board instance.
+    def __init__(self, grid_size):
+            """
+            Initializes a new Board instance.
 
-        Args:
-        - grid_size (int): The size of the game grid.
-        """
-        self.grid_size = grid_size
-        self.all_coords = {(chr(row), col) for row in range(65, 65 + grid_size) for col in range(1, grid_size + 1)}
-        self.guesses = set()
-        self.missed_items = set()
+            Args:
+            - grid_size (int): The size of the game grid.
+            """
+            self.grid_size = grid_size
+            self.all_coords = {(chr(row), col) for row in range(65, 65 + grid_size) for col in range(1, grid_size + 1)}
+            self.guesses = set()
+            self.missed_items = set()
 
     
     def item_reveal(self, player, other, otherPlayerBoard):
