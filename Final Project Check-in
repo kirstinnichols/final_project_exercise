@@ -104,6 +104,26 @@ class Computer(Player):
         self.place_item('Broken Glass', (chr(random.randint(65, 65 + grid_size - 1)), random.randint(1, grid_size)))
         self.place_item('Shovel', (chr(random.randint(65, 65 + grid_size - 1)), random.randint(1, grid_size)))
         self.place_item('Bomb', (chr(random.randint(65, 65 + grid_size - 1)), random.randint(1, grid_size)))
+        
+    def guess_location(self, grid_size, board):
+        """
+        Generates a random guess for the computer player.
+
+        Args:
+        - grid_size (int): The size of the game grid.
+        - board (Board): The game board.
+
+        Returns:
+        tuple: The computer player's guess in the format (row, column).
+        """
+        while True:
+            row = chr(random.randint(65, 64 + grid_size))
+            col = random.randint(1, grid_size)
+            guess = (row, col)
+            
+            if guess not in board.guesses:
+                print(f"Hunter's guess was {guess}")
+                return guess
       
 class Board:
     """
@@ -182,53 +202,6 @@ class TreasureHuntGame:
     
 
 
-    #play function
-    def play(self):
-            """Play the game.
-            
-            Side effects:
-                Writes to stdout.
-                See also turn().
-            """
-
-            while self.outcome() is None:
-                turn += 1
-                player = self.players[turn % len(self.players)]
-                if self.score[player.name] < self.objects:
-                    continue
-                self.turn(player)
-            print(self.state().board)
-            outcome = self.outcome()
-            if outcome == "win":
-                print(f"{player.name} wins!")
-            else:
-                print(f"The {object} was buried at {coordinates}. Play again 
-                    for another chance to find treasure!")
-
-                
-
-    #Remy's Methods
-
-    def outcome(Player):
-        """Determines if there is a winner or loser
-
-        Args:
-            Player (Player): A player object that will play the game
-
-        Returns:
-            str: outcome of the game (i.e. player one wins/loses or None if the 
-            the game is not over)
-            
-        Primary Author: Remington Nelson
-        """
-        
-        if Player.objects.contains("Treasure"):
-            return "win"
-        elif Player.objects.contains("Bomb"):
-            return "lose"
-        else:
-            return None
-        
 
     def __str__(self, player_index):
         """Prints display board as formal string representation, determining how 
@@ -260,35 +233,6 @@ class TreasureHuntGame:
     
 
 
-    def place_item_comp(self,difficulty):
-        assigned_coordinates = set()
-        for item in self.items.keys():
-            while True:
-                if difficulty == "easy":
-                    #list of items to place on board
-                    letter_choice = 'ABCDE'
-                    # make a random choice for the column
-                    row = random.choice(letter_choice)
-                    #make a random choice for the row 
-                    column = random.randint(1,5)
-                elif difficulty == "hard":
-                    letter_hard = 'ABCDEFGHIJ'
-                    row = random.choice(letter_hard)
-                    column = random.randint(1,10)
-                else:
-                    raise ValueError("Invalid difficulty. Choose 'easy' or 'hard'.")
-                
-                coordinates = (row, column)
-                
-                if coordinates not in assigned_coordinates:
-                    break
-                
-            assigned_coordinates.add(coordinates)
-            self.items[item] = coordinates
-        
-        return self.items
-    
-
 
 class Board:
     def __init__(self, difficulty="easy"):
@@ -314,6 +258,8 @@ class Board:
         
         Side effects:
             prints the location of the items for each player's board
+            
+        Aileen Ham, set operations
         """
             
         player_missed_items = set(other.items.values()) - self.guesses
@@ -397,6 +343,8 @@ def main(player1, player2=None):
     Side effects: 
         Prints intro to Treasure Hunt Island
         Changes player1 and player2 value based on user input
+    
+    Aileen Ham, optional parameters
     
     """
     
