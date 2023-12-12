@@ -2,7 +2,8 @@
 
 ## Instructions to run the program:
 
-With the command line open, type "python \"Final Project Check-in.py\""(or on mac type "python3 [filename.py]") and the game should begin!
+With the command line open, type "python \'Final Project Check-in.py\'"
+(or on mac type "python3 \'Final Project Check-in.py\'") and the game should begin!
 
 ## Instructions on how to use the program:
 
