@@ -16,7 +16,17 @@ class Player:
     
     """
 
-        
+    def __init__(self, name):
+        """
+        Initializes a new Player instance.
+
+        Args:
+        - name (str): The name of the player.
+        """
+        self.name = name
+        self.items = {item: None for item in ['Treasure Chest', 'Broken Glass', 'Shovel', 'Bomb']}
+        self.extra_turn = False
+        self.skips_turn = False
     
     def place_item(self, difficulty):
         
@@ -46,6 +56,42 @@ class Player:
             self.items[item] = coordinates
 
         return self.items
+    
+    def guess_location(self, grid_size, board):
+        """
+        Takes input from the player to guess the location of the treasure chest.
+ 
+        Parameters:
+        - grid_size (int): The size of the game grid.
+        - board (Board): The game board.
+
+        Returns:
+        tuple: The player's guess in the format (row, column).
+        """
+
+        
+        while True:
+            row = input(f"{self.name}, what ROW do you think the treasure chest 
+                is at? Enter a letter A-{chr(65 + grid_size - 1)}: ").upper()
+
+            if 'A' <= row <= chr(65 + grid_size - 1) and len(row) == 1:
+                col = input(f"What COLUMN do you think the treasure chest is at?
+                            Enter a number 1-{grid_size}: ")
+
+                if col.isdigit() and 1 <= int(col) <= grid_size:
+                    col = int(col)
+                    guess = (row, col)
+                    if guess not in board.guesses:
+                        return guess
+                    else:
+                        print("You already guessed this location. Try again.")
+                else:
+                    print(f"Invalid input. Please enter a valid integer for the 
+                          column (1-{grid_size}).")
+            else:
+                print(f"Invalid input. Please enter a valid row 
+                      (A-{chr(65 + grid_size - 1)}).")
+
  
 
 class ComputerPlayer(Player):
