@@ -15,22 +15,7 @@ class Player:
     - col(int): the column where the item is placed (1-26).
     
     """
-    def __init__(self, name):
-        """Initializes a new Player instance.
-        
-        Args:
-        - name(str): the name of the player.
-        
-        Side effects:
-        - Initializes items.
-        - Initializes extra_turn.
-        - Initializes skips_turn.
-        """
-        
-        self.name = name
-        self.items = {item: None for item in ['Treasure Chest', 'Broken Glass', 'Shovel', 'Bomb']}
-        self.extra_turn = False
-        self.skips_turn = False
+
         
     
     def place_item(self, difficulty):
