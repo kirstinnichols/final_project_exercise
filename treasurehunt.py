@@ -66,7 +66,7 @@ class Player:
 
             if 'A' <= row <= chr(65 + grid_size - 1) and len(row) == 1:
                 col = input(f'''What COLUMN do you think the treasure chest is at?
-                Enter a number 1-{grid_size}: ''')
+            Enter a number 1-{grid_size}: ''')
 
                 if col.isdigit() and 1 <= int(col) <= grid_size:
                     col = int(col)
@@ -215,8 +215,13 @@ class Game:
                 self.boards[i].add_guess(player_guess)
                 
 
-                if player_guess == self.players[1 - i].items['Treasure Chest'] and player_guess != player.items['Treasure Chest']:
+                if player_guess == self.players[1 - i].items['Treasure Chest']:
                     print(f"Congratulations {player.name}! You found the treasure chest and won the game!")
+                    self.boards[i].item_reveal(player, self.players[1 - i], self.boards[1 - i])
+                    return
+                elif player_guess == self.players[1 - i].items['Bomb']:
+                    print(f"Oh no, {player.name}! You uncovered the bomb. Game over!")
+                    self.boards[i].item_reveal(player, self.players[1 - i], self.boards[1 - i])
                     return
                 else:
                     item_at_guess = None
@@ -232,8 +237,13 @@ class Game:
                             new_guess = player.guess_location(self.grid_size, self.boards[i])
                             self.boards[i].add_guess(new_guess)
                             
-                            if new_guess == self.players[1 - i].items['Treasure Chest'] and new_guess != player.items['Treasure Chest']:
+                            if new_guess == self.players[1 - i].items['Treasure Chest']:
                                 print(f"Congratulations {player.name}! You found the treasure chest and won the game!")
+                                self.boards[i].item_reveal(player, self.players[1 - i], self.boards[1 - i])
+                                return
+                            elif player_guess == self.players[1 - i].items['Bomb']:
+                                print(f"Oh no, {player.name}! You uncovered the bomb. Game over!")
+                                self.boards[i].item_reveal(player, self.players[1 - i], self.boards[1 - i])
                                 return
                             else:
                                 item_at_new_guess = None
