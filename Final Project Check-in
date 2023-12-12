@@ -97,18 +97,26 @@ class Player:
 
  
 
-class ComputerPlayer(Player):
+class Computer(Player):
     """
     Represents a computer player in the Treasure Hunt game.
-    
-    Attributes: 
-        - name (str): the name of the player.
-        - grid_size (int): the size of the game grid.
-        - board (Board): the game board.
+    """
+    def __init__(self, name):
+        """Initializes class
+        Args: name(str): name of player"""
+        super().__init__(name)
+
+    def place_items_randomly(self, grid_size):
         """
-    def __init__(self, name, grid):
-      super().__init__(name)
-      self.grid = grid
+        Places items randomly on the computer player's grid.
+
+        P:
+        - grid_size (int): The size of the game grid.
+        """
+        self.place_item('Treasure Chest', (chr(random.randint(65, 65 + grid_size - 1)), random.randint(1, grid_size)))
+        self.place_item('Broken Glass', (chr(random.randint(65, 65 + grid_size - 1)), random.randint(1, grid_size)))
+        self.place_item('Shovel', (chr(random.randint(65, 65 + grid_size - 1)), random.randint(1, grid_size)))
+        self.place_item('Bomb', (chr(random.randint(65, 65 + grid_size - 1)), random.randint(1, grid_size)))
       
 class Board:
     """
@@ -135,10 +143,55 @@ class Board:
 class TreasureHuntGame:
     """Allows user to play TreasureHuntGame based on their own input and either
     the input of either a second user or the computer
+
+def set_up_game(self):
+    """
+    Sets up the initial difficulty level and item placement of the Treasure Hunt game.
+
+    Side effects: defines row, col, and self.grid_size depending on user input
+    """
+    difficulty = input('''Would you like to play on easy (5x5 grid) or hard mode (10x10 grid)? 
+    Enter 'easy' or 'hard: ''')
     
-    Attributes:
-    - event_type(str): string representing found item
-    - player(str): string representing the player"""
+    while not (difficulty == "easy" or difficulty == "hard"):
+        difficulty = input("Please ONLY enter 'easy' or 'hard': ")
+    
+    self.grid_size = 5 if difficulty == "easy" else 10
+
+    print("\nLet's begin by hiding our items on the island:")
+    
+    for player in self.players:
+        if isinstance(player, Computer):
+            player.place_items_randomly(self.grid_size)
+        else:
+            print(f"{player.name}, please enter the coordinates for each item in the following format 'A1'.\n")
+            
+            for item in player.items:
+                while True:
+                    coords = input(f"{item}: ").strip().upper()
+                    
+                    if len(coords) < 2 or not coords[0].isalpha() or not coords[1:].isdigit():
+                        print("Invalid format. Please enter coordinates in this format 'A1'.")
+                        continue
+                    
+                    row = coords[0]
+                    col = int(coords[1:])
+
+                    if difficulty == "easy":
+                        if row not in "ABCDE" or col not in range(1, 6):
+                            print("Invalid coordinates. Please enter coordinates within A1-E5 range")
+                            continue
+                    elif difficulty == "hard":
+                        if row not in "ABCDEFGHIJ" or col not in range(1, 11):
+                            print("Invalid coordinates. Please enter coordinates within A1-J10 range")
+                            continue
+
+                    if player.place_item(item, (row, col)) == ValueError:
+                        print("This coordinate is already assigned to another item. Please choose a different set of coordinates")
+                        continue
+                    else:
+                        break
+
     
 
 
@@ -164,6 +217,7 @@ class TreasureHuntGame:
             else:
                 print(f"The {object} was buried at {coordinates}. Play again 
                     for another chance to find treasure!")
+
                 
 
     #Remy's Methods
