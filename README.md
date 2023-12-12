@@ -16,8 +16,13 @@ Our program does not require other files so this is the only other file
 
 | Method/Function | Primary Author | Technique Demonstrated |
 | --- | --- | --- |
-| BLANK | Adom-Ahima Amissah | BLANK |
-| BLANK | Aileen Ham | Set Operations & List Comprehension |
-| BLANK | Deandre Germany | BLANK |
-| BLANK | Kirstin Nichols | BLANK |
-| BLANK | Remington Nelson | BLANK |
+| parse_args & Player.place_item | Adom-Ahima Amissah | Argument Parser |
+| Player.place_item | Adom-Ahima Amissah | Sequence Unpacking |
+| BLANK | Aileen Ham | Set Operations |
+| Main | Aileen Ham | Optional Parameters |
+| ComputerPlayer Class | Deandre Germany | Super |
+| TreasureHuntGame.set_up_game | Deandre Germany | Conditional Expressions |
+| TreasureHuntGame.__str__ | Kirstin Nichols | Magic Methods |
+| TreasureHuntGame and Board Classes | Kirstin Nichols | Composition of Two Custom Classes |
+| Player.Guess_location | Remington Nelson | F-Strings |
+| Player.__init__ | Remington Nelson | List Comprehension |
