@@ -22,7 +22,7 @@ Our program does not require other files so this is the only other file
 | Main | Aileen Ham | Optional Parameters |
 | ComputerPlayer Class | Deandre Germany | Super |
 | TreasureHuntGame.set_up_game | Deandre Germany | Conditional Expressions |
-| TreasureHuntGame.__str__ | Kirstin Nichols | Magic Methods |
+| TreasureHuntGame.\_\_str\_\_ | Kirstin Nichols | Magic Methods |
 | TreasureHuntGame and Board Classes | Kirstin Nichols | Composition of Two Custom Classes |
 | Player.Guess_location | Remington Nelson | F-Strings |
 | Player.\_\_init\_\_ | Remington Nelson | List Comprehension |
