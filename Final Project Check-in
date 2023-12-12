@@ -11,8 +11,8 @@ class Player:
     Attributes: 
     - name(str): the name of the player.
     - item(str): the item to be placed.
-    - row(str): the row where the item is placed (letter A-Z).
-    - col(int): the column where the item is placed (1-26).
+    - row(str): the row where the item is placed (letter A-J).
+    - col(int): the column where the item is placed (1-10).
     
     """
 
