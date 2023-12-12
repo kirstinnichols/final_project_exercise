@@ -150,6 +150,12 @@ class Board:
 class TreasureHuntGame:
     """Allows user to play TreasureHuntGame based on their own input and either
     the input of either a second user or the computer"""
+    
+    def __init__(self, player1, player2=None):
+        self.players = [player1, player2] if player2 else [player1]
+        self.grid_size = 0
+        self.current_player = None
+        self.boards = [Board(0), Board(0)]
 
     def set_up_game(self):
         """
