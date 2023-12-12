@@ -25,4 +25,4 @@ Our program does not require other files so this is the only other file
 | TreasureHuntGame.__str__ | Kirstin Nichols | Magic Methods |
 | TreasureHuntGame and Board Classes | Kirstin Nichols | Composition of Two Custom Classes |
 | Player.Guess_location | Remington Nelson | F-Strings |
-| Player.__init__ | Remington Nelson | List Comprehension |
+| Player.\__init\__ | Remington Nelson | List Comprehension |
