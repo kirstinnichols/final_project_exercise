@@ -90,6 +90,7 @@ class Player:
 
 class Computer(Player):
     """
+    primary author Deandre Germany
     Represents a computer player in the Treasure Hunt game.
     """
     def __init__(self, name):
@@ -141,6 +142,7 @@ class Game:
 
     def set_up_game(self):
         """
+        primary author Deandre Germany
         Sets up the initial difficulty level and item placement of the Treasure Hunt game.
 
         Side effects: 
